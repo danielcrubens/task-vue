@@ -1,19 +1,30 @@
 <template>
   <div>
-FORM
+    <form @submit.prevent="addItemAndClear(todo)">
+      <input v-model="todo" type="text" />
+      <button>Add</button>
+    </form>
   </div>
 </template>
 
 <script>
+import { ref } from "vue";
+import { useTodoListStore } from '@/store/useTodoListStore'
+
 export default {
-  setup () {
-    
+  setup() {
+    const todo = ref("");
+    const store = useTodoListStore();
 
-    return {}
-  }
-}
+    function addItemAndClear() {
+      if (todo.value.length === 0) {
+        return;
+      }
+      store.addTodo(todo.value);
+      todo.value = '';
+    }
+
+    return { todo, addItemAndClear };
+  },
+};
 </script>
-
-<style lang="scss" scoped>
-
-</style>
